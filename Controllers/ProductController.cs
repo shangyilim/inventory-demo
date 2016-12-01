@@ -36,15 +36,16 @@ namespace Inventory.Controllers
             this.ProductRepo.Add(product);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult  Update(Guid id, [FromBody] Product product)
+        [HttpPut]
+        public IActionResult Update([FromBody] Product product)
         {
-            if(product == null || id == Guid.Empty)
+            if (product == null || product.Id == Guid.Empty)
             {
                 return BadRequest();
             }
 
-            this.ProductRepo.Add(product);
+            this.ProductRepo.Update(product);
+            return Accepted();
         }
     }
 }
