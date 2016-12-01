@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Inventory.Models;
 
 namespace Inventory
@@ -34,6 +35,9 @@ namespace Inventory
              // Inject an implementation of ISwaggerProvider with defaulted settings applied
             services.AddSwaggerGen();
             services.AddSingleton<IProductRepository, ProductRepository>();
+
+            var connection = @"Server=(localdb)\inventory;Integrated Security=true;Trusted_Connection=True;";
+            services.AddDbContext<ProductContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

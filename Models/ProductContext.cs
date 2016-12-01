@@ -2,13 +2,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Inventory.Models
 {
-    class ProductContext : DbContext
+    public class ProductContext : DbContext
     {
-        public DbSet<Product> Products { get; set; }
+        public ProductContext(DbContextOptions<ProductContext> options) : base(options)
+        {}
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\inventory;Integrated Security=true;Trusted_Connection=True;");
-        }
+        public DbSet<Product> Products { get; set; }
     }
 }

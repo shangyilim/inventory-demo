@@ -6,38 +6,30 @@ namespace Inventory.Models
 {
     public class ProductRepository : IProductRepository
     {
-        private List<Product> ProductList;
+        private ProductContext _productContext;
+
+        public ProductRepository(ProductContext productContext) {
+            this._productContext = productContext;
+        }
 
         public void Add(Product product)
         {
             product.Id = Guid.NewGuid();
 
-            using(var context = new ProductContext())
-            {
-                context.Products.Add(product);
-            }
+            this._productContext.Add(product);
+            this._productContext.SaveChanges();
         }
 
         public Product Get(Guid id)
         {
-            Product productFound = null;
-
-            using(var context = new ProductContext())
-            {
-                productFound = context.Products.Where(p => p.Id == id).FirstOrDefault();
-            }
+            Product productFound = this._productContext.Products.Where(p => p.Id == id).FirstOrDefault();
 
             return productFound;
         }
 
         public IEnumerable<Product> GetAll()
         {
-            List<Product> productList = null; 
-
-            using(var context = new ProductContext())
-            {
-                productList = context.Products.ToList();
-            }
+            List<Product> productList = this._productContext.Products.ToList();
 
             return productList;
         }
