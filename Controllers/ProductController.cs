@@ -19,25 +19,25 @@ namespace Inventory.Controllers
 
         // GET api/product
         [HttpGet]
-        public IEnumerable<Product> Get()
+        public IEnumerable<ProductDTO> Get()
         {
             return this.ProductRepo.GetAll();
         }
 
         [HttpGet("{id}", Name = "Get Product By Id")]
-        public Product GetById(Guid id)
+        public ProductDTO GetById(Guid id)
         {
             return this.ProductRepo.Get(id);
         }
 
         [HttpPost]
-        public void Post([FromBody] Product product)
+        public void Post([FromBody] ProductDTO product)
         {
             this.ProductRepo.Add(product);
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Product product)
+        public IActionResult Update([FromBody] ProductDTO product)
         {
             if (product == null || product.Id == Guid.Empty)
             {

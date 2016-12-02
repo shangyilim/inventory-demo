@@ -36,8 +36,8 @@ namespace Inventory
             services.AddSwaggerGen();
             services.AddSingleton<IProductRepository, ProductRepository>();
 
-            var connection = @"Server=(localdb)\inventory;Integrated Security=true;Trusted_Connection=True;";
-            services.AddDbContext<ProductContext>(options => options.UseSqlServer(connection));
+            var connectionString = Configuration["DbContextSettings:ConnectionString"];
+            services.AddDbContext<InventoryContext>(options => options.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
