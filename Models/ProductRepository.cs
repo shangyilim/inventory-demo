@@ -44,6 +44,21 @@ namespace Inventory.Models
             return productDTOList;
         }
 
+        public IEnumerable<ProductDTO> GetByName(String searchString)
+        {
+            List<Product> productList = this._inventoryContext.Products.Where(p => p.Name.Contains(searchString)).ToList();
+            
+            
+            List<ProductDTO> productDTOList = new List<ProductDTO>();
+
+            foreach (var product in productList)
+            {
+                productDTOList.Add(mapDTO(product));
+            }
+
+            return productDTOList;
+        }
+
         public ProductDTO Remove(Guid id)
         {
             throw new NotImplementedException();

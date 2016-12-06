@@ -47,5 +47,11 @@ namespace Inventory.Controllers
             this.ProductRepo.Update(product);
             return Accepted();
         }
+
+        [HttpGet("search")]
+        public IEnumerable<ProductDTO> Get(string name)
+        {
+            return this.ProductRepo.GetByName(name);
+        }
     }
 }
