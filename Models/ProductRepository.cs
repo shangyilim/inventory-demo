@@ -60,7 +60,7 @@ namespace Inventory.Models
             ProductDTO productDTO = new ProductDTO();
             productDTO.Id = product.Id;
             productDTO.Name = product.Name;
-            productDTO.Description = product.Description;
+            productDTO.Image = product.Image;
             productDTO.sellingPrice = product.sellingPrice;
             productDTO.costPrice = product.costPrice;
 
@@ -72,7 +72,7 @@ namespace Inventory.Models
             Product product = new Product();
             product.Id = productDTO.Id;
             product.Name = productDTO.Name;
-            product.Description = productDTO.Description;
+            product.Image = productDTO.Image;
             product.sellingPrice = productDTO.sellingPrice;
             product.costPrice = productDTO.costPrice;
 
