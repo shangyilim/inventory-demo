@@ -39,10 +39,6 @@ namespace Inventory
 
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
             services.AddDbContext<InventoryContext>(options => options.UseSqlServer(connectionString));
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Product, ProductDTO>();
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
