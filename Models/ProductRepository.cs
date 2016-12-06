@@ -8,19 +8,12 @@ namespace Inventory.Models
     public class ProductRepository : IProductRepository
     {
         private InventoryContext _inventoryContext;
+        private readonly IMapper _mapper;
 
-        public ProductRepository(InventoryContext InventoryContext)
+        public ProductRepository(InventoryContext InventoryContext, IMapper mapper)
         {
             this._inventoryContext = InventoryContext;
-        }
-
-        public void Add(ProductDTO productDTO)
-        {
-            productDTO.Id = Guid.NewGuid();
-            Product product = map(productDTO);
-
-            this._inventoryContext.Add(product);
-            this._inventoryContext.SaveChanges();
+            this._mapper = mapper;
         }
 
         public ProductDTO Get(Guid id)
@@ -59,15 +52,43 @@ namespace Inventory.Models
             return productDTOList;
         }
 
+        public ProductDTO Add(ProductDTO productDTO)
+        {
+            productDTO.Id = Guid.NewGuid();
+            //Product product = map(productDTO);
+            
+            Product product = Mapper.Map<Product>(productDTO);
+
+            this._inventoryContext.Add(product);
+            this._inventoryContext.SaveChanges();
+
+            return productDTO;
+        }
+
+        public ProductDTO Update(ProductDTO productDTO)
+        {
+            Product productFound = this._inventoryContext.Products.Where(p => p.Id == productDTO.Id).FirstOrDefault();
+
+            if(productFound == null) 
+            {
+                throw new Exception("Product not found.");
+            }
+
+            productFound.Name = productDTO.Name;
+            productFound.Image = productDTO.Image;
+            productFound.costPrice = productDTO.costPrice;  
+            productFound.sellingPrice = productDTO.sellingPrice;
+
+            this._inventoryContext.SaveChanges();
+            return productDTO;
+        }
+
         public ProductDTO Remove(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(ProductDTO product)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         // This can be replaced by AutoMapper
         private ProductDTO mapDTO(Product product)

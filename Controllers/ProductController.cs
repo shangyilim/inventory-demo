@@ -31,21 +31,17 @@ namespace Inventory.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] ProductDTO product)
+        public ProductDTO Post([FromBody] ProductDTO product)
         {
-            this.ProductRepo.Add(product);
+            var productDTOResult = this.ProductRepo.Add(product);
+            return productDTOResult;
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] ProductDTO product)
+        public ProductDTO Update([FromBody] ProductDTO product)
         {
-            if (product == null || product.Id == Guid.Empty)
-            {
-                return BadRequest();
-            }
-
-            this.ProductRepo.Update(product);
-            return Accepted();
+            var productDTOResult = this.ProductRepo.Update(product);
+            return productDTOResult;
         }
 
         [HttpGet("search")]
