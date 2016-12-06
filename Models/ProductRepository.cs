@@ -8,12 +8,10 @@ namespace Inventory.Models
     public class ProductRepository : IProductRepository
     {
         private InventoryContext _inventoryContext;
-        private readonly IMapper _mapper;
 
-        public ProductRepository(InventoryContext InventoryContext, IMapper mapper)
+        public ProductRepository(InventoryContext InventoryContext)
         {
             this._inventoryContext = InventoryContext;
-            this._mapper = mapper;
         }
 
         public ProductDTO Get(Guid id)
@@ -55,10 +53,8 @@ namespace Inventory.Models
         public ProductDTO Add(ProductDTO productDTO)
         {
             productDTO.Id = Guid.NewGuid();
-            //Product product = map(productDTO);
+            Product product = map(productDTO);
             
-            Product product = Mapper.Map<Product>(productDTO);
-
             this._inventoryContext.Add(product);
             this._inventoryContext.SaveChanges();
 
