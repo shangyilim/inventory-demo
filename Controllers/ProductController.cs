@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Inventory.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,37 +15,56 @@ namespace Inventory.Controllers
 
         public IProductRepository ProductRepo { get; set; }
 
-        // GET api/product
+        // GET api/product?name={productName}
         [HttpGet]
-        public IEnumerable<ProductDTO> Get()
+        public IEnumerable<ProductDTO> Get([FromQuery] String name)
         {
-            return this.ProductRepo.GetAll();
+            if (String.IsNullOrEmpty(name))
+            {
+                return this.ProductRepo.GetAll();
+            }
+            else
+            {
+                return this.ProductRepo.GetByName(name);
+            }
         }
 
-        [HttpGet("{id}", Name = "Get Product By Id")]
-        public ProductDTO GetById(Guid id)
+        // GET api/product/{id}
+        [HttpGet("{id:Guid}", Name = "GetProduct")]
+        [ProducesResponseTypeAttribute(typeof(ProductDTO), 200)]
+        public IActionResult GetById(Guid id)
         {
-            return this.ProductRepo.Get(id);
+            ProductDTO productDTOResult = this.ProductRepo.Get(id);
+
+            if (productDTOResult == null)
+            {
+                return NotFound("Product is not found.");
+            }
+
+            return new ObjectResult(productDTOResult);
         }
 
+        // POST api/product
         [HttpPost]
-        public ProductDTO Post([FromBody] ProductDTO product)
+        [ProducesResponseTypeAttribute(typeof(ProductDTO), 200)]
+        public IActionResult Post([FromBody] ProductDTO product)
         {
-            var productDTOResult = this.ProductRepo.Add(product);
-            return productDTOResult;
+            ProductDTO productDTOResult = this.ProductRepo.Add(product);
+            return new ObjectResult(productDTOResult);
         }
 
+        // PUT api/product
         [HttpPut]
-        public ProductDTO Update([FromBody] ProductDTO product)
+        public IActionResult Update([FromBody] ProductDTO product)
         {
-            var productDTOResult = this.ProductRepo.Update(product);
-            return productDTOResult;
-        }
+            ProductDTO productDTOResult = this.ProductRepo.Update(product);
 
-        [HttpGet("search")]
-        public IEnumerable<ProductDTO> Get(string name)
-        {
-            return this.ProductRepo.GetByName(name);
+            if (productDTOResult == null)
+            {
+                return NotFound("Product is not found for updating.");
+            }
+
+            return new ObjectResult(productDTOResult);
         }
     }
 }
