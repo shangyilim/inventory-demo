@@ -11,10 +11,9 @@ namespace Inventory.Models
         public Guid Id { get; set; }
         
         [Required]
-        [StringLength(50)]
+        [StringLength(100)]
         public string Name { get; set; }
         
-        [StringLength(100)]
         public string Image { get; set; }
         
         [Required]

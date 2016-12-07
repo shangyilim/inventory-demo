@@ -22,7 +22,7 @@ namespace inventorydemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Image")
+                    b.Property<string>("Description")
                         .HasMaxLength(100);
 
                     b.Property<string>("Name")
