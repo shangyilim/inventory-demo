@@ -12,7 +12,7 @@ namespace Inventory.Models
         public string Name { get; set; }
         
         [StringLength(100)]
-        public string Description { get; set; }
+        public string Image { get; set; }
         
         [Required]
         [DataType(DataType.Currency)]
