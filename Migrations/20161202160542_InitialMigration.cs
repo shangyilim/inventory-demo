@@ -13,7 +13,7 @@ namespace inventorydemo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Description = table.Column<string>(maxLength: 100, nullable: true),
+                    Image = table.Column<string>(maxLength: 100, nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     costPrice = table.Column<double>(nullable: false),
                     sellingPrice = table.Column<double>(nullable: false)

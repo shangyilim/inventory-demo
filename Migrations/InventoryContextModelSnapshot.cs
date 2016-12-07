@@ -21,7 +21,7 @@ namespace inventorydemo.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Image")
                         .HasMaxLength(100);
 
                     b.Property<string>("Name")
