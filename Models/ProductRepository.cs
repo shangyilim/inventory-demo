@@ -17,7 +17,12 @@ namespace Inventory.Models
         public ProductDTO Get(Guid id)
         {
             var product = this._inventoryContext.Products.Where(p => p.Id == id).FirstOrDefault();
-            ProductDTO productDTO = mapDTO(product);
+            ProductDTO productDTO = null;
+
+            if (product != null)
+            {
+                productDTO = mapDTO(product);
+            }
 
             return productDTO;
         }
@@ -38,8 +43,8 @@ namespace Inventory.Models
         public IEnumerable<ProductDTO> GetByName(String searchString)
         {
             List<Product> productList = this._inventoryContext.Products.Where(p => p.Name.Contains(searchString)).ToList();
-            
-            
+
+
             List<ProductDTO> productDTOList = new List<ProductDTO>();
 
             foreach (var product in productList)
@@ -54,7 +59,7 @@ namespace Inventory.Models
         {
             productDTO.Id = Guid.NewGuid();
             Product product = map(productDTO);
-            
+
             this._inventoryContext.Add(product);
             this._inventoryContext.SaveChanges();
 
@@ -65,17 +70,20 @@ namespace Inventory.Models
         {
             Product productFound = this._inventoryContext.Products.Where(p => p.Id == productDTO.Id).FirstOrDefault();
 
-            if(productFound == null) 
+            if (productFound != null)
             {
-                throw new Exception("Product not found.");
+                productFound.Name = productDTO.Name;
+                productFound.Image = productDTO.Image;
+                productFound.costPrice = productDTO.costPrice;
+                productFound.sellingPrice = productDTO.sellingPrice;
+
+                this._inventoryContext.SaveChanges();
+            }
+            else
+            {
+                productDTO = null;
             }
 
-            productFound.Name = productDTO.Name;
-            productFound.Image = productDTO.Image;
-            productFound.costPrice = productDTO.costPrice;  
-            productFound.sellingPrice = productDTO.sellingPrice;
-
-            this._inventoryContext.SaveChanges();
             return productDTO;
         }
 
@@ -84,7 +92,7 @@ namespace Inventory.Models
             throw new NotImplementedException();
         }
 
-       
+
 
         // This can be replaced by AutoMapper
         private ProductDTO mapDTO(Product product)

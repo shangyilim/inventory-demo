@@ -8,9 +8,10 @@ using Inventory.Models;
 namespace inventorydemo.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20161207135300_Product_UpdateDescriptionToImage")]
+    partial class Product_UpdateDescriptionToImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
