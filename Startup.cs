@@ -46,7 +46,7 @@ namespace Inventory
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            
             app.UseMvc();
 
              // Enable middleware to serve generated Swagger as a JSON endpoint
@@ -54,6 +54,10 @@ namespace Inventory
 
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
             app.UseSwaggerUi();
+
+            app.UseDeveloperExceptionPage();
+
+            
         }
     }
 }
